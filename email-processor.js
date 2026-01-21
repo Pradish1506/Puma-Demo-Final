@@ -8,7 +8,7 @@ import { decideRoute } from "./engines/decisionEngine.js";
 --------------------------*/
 const TENANT_ID = "7e1d931c-a318-4d9d-8472-62e2437de1b0";
 const CLIENT_ID = "89f6a458-fc26-4cb5-9e1b-ee045588c093";
-const CLIENT = process.env.CLIENT_SECRET;
+const CLIENT = "o~k8Q~PdbqWFkGMy898zFq5bE_gyaFzWHdWy3dt2";
 const MAILBOX = "support@puma.quantaops.com";
 // Backend API URL (default to localhost if not set)
 const API_URL = process.env.API_URL || "https://puma-backend-demo-production.up.railway.app";
