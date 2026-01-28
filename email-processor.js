@@ -124,10 +124,11 @@ function extractOrderIds(text = "") {
 
 /**
  * ✅ Puma requested: include Refund Number / ARN in replies (if available)
- * We try common keys safely (no crash even if fields not present).
+ * ✅ FIX: your DB uses "rrn" (RRN9876...), so include it here.
  */
 function getRefundRef(orderData) {
   return (
+    orderData?.rrn ||                    // ✅ ADDED (this fixes N/A in your demo)
     orderData?.arn_number ||
     orderData?.refund_arn ||
     orderData?.refund_reference ||
@@ -158,15 +159,9 @@ Puma Support
         (o) => `
       <tr>
         <td style="border: 1px solid #ddd; padding: 8px;">${o.order_id}</td>
-        <td style="border: 1px solid #ddd; padding: 8px;">${
-          o.items || "Items"
-        }</td>
-        <td style="border: 1px solid #ddd; padding: 8px;">${
-          o.status || "NA"
-        }</td>
-        <td style="border: 1px solid #ddd; padding: 8px;">${
-          o.created_at || "NA"
-        }</td>
+        <td style="border: 1px solid #ddd; padding: 8px;">${o.items || "Items"}</td>
+        <td style="border: 1px solid #ddd; padding: 8px;">${o.status || "NA"}</td>
+        <td style="border: 1px solid #ddd; padding: 8px;">${o.created_at || "NA"}</td>
       </tr>
     `
       )
@@ -248,9 +243,7 @@ Puma Support
   // --- 3. Agent Handoff / Exceptions ---
   agent_handoff_generic: (id) => `
 Hello,<br><br>
-Thank you for writing to us${
-    id ? ` regarding order <b>${id}</b>` : ""
-  }. <br>
+Thank you for writing to us${id ? ` regarding order <b>${id}</b>` : ""}. <br>
 A support specialist has been assigned and will get back to you shortly.<br><br>
 Regards,<br>
 Puma Support
@@ -341,9 +334,7 @@ Puma Support
   // ✅ You were calling this earlier; adding it prevents runtime issues for that intent.
   return_exchange: (id = "") => `
 Hello,<br><br>
-Thank you for reaching out.${
-    id ? ` We have noted your request for order <b>${id}</b>.` : ""
-  }<br>
+Thank you for reaching out.${id ? ` We have noted your request for order <b>${id}</b>.` : ""}<br>
 Our support team will assist you with the return or exchange process shortly.<br><br>
 Regards,<br>
 Puma Support
@@ -413,7 +404,6 @@ function buildReply({
       if (isAgentHandoff)
         return templates.refund_issue_handoff(id || "YOUR_ORDER", refundRef);
 
-      // If your order API has refund_status, show processed template when applicable
       const refundStatus = (orderData?.refund_status || "").toLowerCase();
       if (refundStatus === "processed" || refundStatus === "success") {
         return templates.refund_processed(id, refundRef || "N/A");
