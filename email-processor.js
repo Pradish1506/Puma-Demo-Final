@@ -128,7 +128,8 @@ function extractOrderIds(text = "") {
  */
 function getRefundRef(orderData) {
   return (
-    orderData?.rrn ||                    // ✅ ADDED (this fixes N/A in your demo)
+    orderData?.refund_rrn ||            // ✅ YOUR API KEY
+    orderData?.rrn ||                   // optional
     orderData?.arn_number ||
     orderData?.refund_arn ||
     orderData?.refund_reference ||
