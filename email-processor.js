@@ -217,13 +217,18 @@ Regards,<br>
 Puma Support
 `,
 
-  delivery_attempt_failed: (id) => `
+delivery_attempt_failed: (id) => `
 Hello,<br><br>
 We noticed a delivery attempt was not successful for your order <b>${id}</b>.<br>
-Our courier partner will attempt delivery again on the next business day. Kindly ensure someone is available to receive the package.<br><br>
+Our courier partner will attempt delivery again on the next business day.<br>
+Kindly ensure someone is available to receive the package.<br><br>
+
+<b>Tracking Number:</b> PUMA-TRK-90034<br><br>
+
 Regards,<br>
 Puma Support
 `,
+
 
   order_delivered: (id) => `
 Hello,<br><br>
